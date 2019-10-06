@@ -1,7 +1,5 @@
 .idea/
 target/
 *.iml
-.project
-.classpath
 !target/*jar
 !target/*war
