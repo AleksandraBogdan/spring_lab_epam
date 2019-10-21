@@ -2,6 +2,7 @@ package com.epam.controller;
 
 import com.epam.model.Task;
 import com.epam.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,23 +11,28 @@ import java.util.List;
 public class TaskContoller {
     private TaskService taskService;
 
-    private void createTask(Task task){
+    @Autowired
+    public TaskContoller(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
+    public void createTask(Task task){
         taskService.createTask(task);
     }
 
-    private void deleteTask(Task task){
+    public void deleteTask(Task task){
         taskService.deleteTask(task);
     }
 
-    private List<Task> getAllTasks(){
+    public List<Task> getAllTasks(){
         return taskService.getAllTask();
     }
 
-    private void setDone(Task task){
+    public void setDone(Task task){
         taskService.setDone(task);
     }
 
-    private void setUndone(Task task){
+    public void setUndone(Task task){
         taskService.setUndone(task);
     }
 

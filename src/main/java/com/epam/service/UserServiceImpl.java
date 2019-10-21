@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
         if (done) {
             System.out.println("User is registered");
         } else {
-            System.out.println("Cant register");
+            System.out.println("Can't register user");
         }
     }
 

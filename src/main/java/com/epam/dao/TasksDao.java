@@ -40,7 +40,8 @@ public class TasksDao implements Dao<Task> {
     public boolean deleteById(int id) {
         Optional<Task> taskOnDelete = tasks.stream().filter(task -> task.getId() == id).findAny();
         if (taskOnDelete.isPresent()) {
-            return tasks.remove(taskOnDelete);
+            tasks.remove(tasks.indexOf(taskOnDelete)+1);
+            return true;
         } else {
             return false;
         }

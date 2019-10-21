@@ -21,7 +21,7 @@ public class TaskServiceImpl implements TaskService {
         if (done) {
             System.out.println("Successful deleting");
         } else {
-            System.out.println("Cant delete");
+            System.out.println("Can't delete task");
         }
     }
 
