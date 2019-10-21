@@ -1,12 +1,11 @@
 package com.epam.service;
 
-import com.epam.model.Task;
 import com.epam.model.User;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
-    User signUp(User user);
+    void signUp(User user);
 
-    User signIn(User user);
+    Optional<User> signIn(User user);
 }

@@ -6,9 +6,8 @@ import lombok.Data;
 @Builder
 @Data
 public class Task {
-     private long id;
+     private int id;
      private String name;
      private boolean isDone;
-     private long userId;
-
+     private int userId;
 }

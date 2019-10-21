@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
     private TasksDao tasksDao = new TasksDao();
+
     @Override
     public void createTask(Task task) {
         tasksDao.save(task);
@@ -16,22 +17,27 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public void deleteTask(Task task) {
-        tasksDao.deleteById(task.getId());
+        boolean done = tasksDao.deleteById(task.getId());
+        if (done) {
+            System.out.println("Successful deleting");
+        } else {
+            System.out.println("Cant delete");
+        }
     }
 
     @Override
     public List<Task> getAllTask() {
-        return tasksDao.getAllTask();
+        return tasksDao.findAll();
     }
 
     @Override
     public void setDone(Task task) {
-        tasksDao.setDoneTask(task);
+        tasksDao.setDoneTask(task.getId());
 
     }
 
     @Override
     public void setUndone(Task task) {
-        tasksDao.setUndoneTask(task);
+        tasksDao.setUndoneTask(task.getId());
     }
 }

@@ -1,10 +1,13 @@
 package com.epam.dao;
 
 import com.epam.model.Task;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 public class TasksDao implements Dao<Task> {
     private static List<Task> tasks = new ArrayList<>();
 
@@ -14,39 +17,44 @@ public class TasksDao implements Dao<Task> {
     }
 
     @Override
-    public void save(Task item) {
-        tasks.add(item);
+    public boolean save(Task item) {
+        return tasks.add(item);
     }
 
     @Override
-    public Task findById(long id) {
-        return tasks.get((int) id);
-    }
-
-    @Override
-    public void update(long id, Task item) {
-        tasks.get((int) id).setId(item.getId());
-        tasks.get((int) id).setName(item.getName());
-        tasks.get((int) id).setDone(item.isDone());
-        tasks.get((int) id).setUserId(item.getUserId());
+    public Optional<Task> findById(int id) {
+        return tasks.stream().filter(task -> task.getId() == id).findAny();
     }
 
 
     @Override
-    public void deleteById(long id) {
-        tasks.remove(id);
+    public Optional<Task> update(int id, Task item) {
+        return tasks.stream().filter(task -> task.getId() == id).peek(task -> {
+            task.setName(item.getName());
+            task.setDone(item.isDone());
+            task.setUserId(item.getUserId());
+        }).findAny();
     }
 
-    public List<Task> getAllTask() {
+    @Override
+    public boolean deleteById(int id) {
+        Optional<Task> taskOnDelete = tasks.stream().filter(task -> task.getId() == id).findAny();
+        if (taskOnDelete.isPresent()) {
+            return tasks.remove(taskOnDelete);
+        } else {
+            return false;
+        }
+    }
+
+    public List<Task> findAll() {
         return tasks;
     }
 
-    public void setDoneTask(Task task){
-        tasks.get((int) task.getId()).setDone(true);
+    public void setDoneTask(int id) {
+        tasks.stream().filter(task -> task.getId() == id).forEach(task -> task.setDone(true));
     }
 
-    public void setUndoneTask(Task task) {
-        tasks.get((int) task.getId()).setDone(false);
+    public void setUndoneTask(int id) {
+        tasks.stream().filter(task -> task.getId() == id).forEach(task -> task.setDone(false));
     }
-
 }

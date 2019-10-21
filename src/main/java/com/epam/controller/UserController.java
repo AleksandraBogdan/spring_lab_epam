@@ -1,21 +1,20 @@
 package com.epam.controller;
 
+import com.epam.model.User;
 import com.epam.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
-@RestController
+import java.util.Optional;
+
+@Component
 public class UserController {
-    private final UserService userService;
+    private  UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public void signUp(User user) {
+        userService.signUp(user);
     }
 
-    @GetMapping("/")
-    public String welcome() {
-        return "welcome";
+    public void signIn(User user) {
+        Optional<User> signInUser = userService.signIn(user);
     }
-
-
 }
