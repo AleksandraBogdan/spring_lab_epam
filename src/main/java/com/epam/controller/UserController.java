@@ -23,4 +23,8 @@ public class UserController {
     public void signIn(User user) {
         signInUser = userService.signIn(user);
     }
+
+    public void subscribe(User user) {
+        userService.subscribe(user.getEmail());
+    }
 }

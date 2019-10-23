@@ -8,4 +8,7 @@ public interface UserService {
     void signUp(User user);
 
     Optional<User> signIn(User user);
+
+    void subscribe(String email);
+
 }

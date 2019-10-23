@@ -1,6 +1,8 @@
 package com.epam.controller;
 
 import com.epam.model.Task;
+import com.epam.model.TaskPriority;
+import com.epam.model.User;
 import com.epam.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Component
 public class TaskContoller {
+
     private TaskService taskService;
 
     @Autowired
@@ -16,8 +19,8 @@ public class TaskContoller {
         this.taskService = taskService;
     }
 
-    public void createTask(Task task){
-        taskService.createTask(task);
+    public void createTask(User user, Task task){
+        taskService.createTask(user, task);
     }
 
     public void deleteTask(Task task){
@@ -36,5 +39,8 @@ public class TaskContoller {
         taskService.setUndone(task);
     }
 
+    public void setPriority(Task task, TaskPriority taskPriority) {
+        taskService.setPriority(task, taskPriority);
+    }
 
 }

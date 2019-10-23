@@ -30,6 +30,10 @@ public class UsersDao implements Dao<User> {
         return users.stream().filter(user -> user.getId() == id).findAny();
     }
 
+    public Optional<User> findByEmail(String email) {
+        return users.stream().filter(user -> user.getEmail() == email).findAny();
+    }
+
     public Set<User> findAll() {
         return users;
 
@@ -42,6 +46,7 @@ public class UsersDao implements Dao<User> {
             user.setEmail(item.getEmail());
             user.setSurname(item.getSurname());
             user.setName(item.getName());
+            user.setUserTasks(item.getUserTasks());
         }).findAny();
     }
 

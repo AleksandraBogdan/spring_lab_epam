@@ -1,6 +1,7 @@
 package com.epam.dao;
 
 import com.epam.model.Task;
+import com.epam.model.TaskPriority;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -57,5 +58,8 @@ public class TasksDao implements Dao<Task> {
 
     public void setUndoneTask(int id) {
         tasks.stream().filter(task -> task.getId() == id).forEach(task -> task.setDone(false));
+    }
+    public void setPriority(int id, TaskPriority taskPriority) {
+        tasks.stream().filter(task -> task.getId() == id).forEach(task -> task.setTaskPriority(taskPriority));
     }
 }
