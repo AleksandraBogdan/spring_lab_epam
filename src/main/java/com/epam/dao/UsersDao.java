@@ -1,5 +1,6 @@
 package com.epam.dao;
 
+import com.epam.exception.NoSuchUserException;
 import com.epam.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -31,12 +32,11 @@ public class UsersDao implements Dao<User> {
     }
 
     public Optional<User> findByEmail(String email) {
-        return users.stream().filter(user -> user.getEmail() == email).findAny();
+        return users.stream().filter(user -> user.getEmail().equals(email)).findAny();
     }
 
     public Set<User> findAll() {
         return users;
-
     }
 
     @Override
@@ -47,16 +47,13 @@ public class UsersDao implements Dao<User> {
             user.setSurname(item.getSurname());
             user.setName(item.getName());
             user.setUserTasks(item.getUserTasks());
+            user.setSubscription(item.getSubscription());
         }).findAny();
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public void deleteById(int id) {
         Optional<User> userOnDelete = users.stream().filter(user -> user.getId() == id).findAny();
-        if (userOnDelete.isPresent()) {
-            return users.remove(userOnDelete);
-        } else {
-            return false;
-        }
+        users.remove(userOnDelete.orElseThrow(NoSuchUserException::new));
     }
 }
