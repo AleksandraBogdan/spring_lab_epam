@@ -1,12 +1,10 @@
 package com.epam.dao;
 
+import com.epam.exception.NoSuchUserException;
 import com.epam.model.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class UsersDao implements Dao<User> {
@@ -14,7 +12,7 @@ public class UsersDao implements Dao<User> {
 
     static {
         users.add(User.builder().id(1).name("Alex").surname("Smith").email("alex@mail.com")
-                .password("1234").build());
+                .password("1234").userTasks(new ArrayList<>()).build());
     }
 
     @Override
@@ -30,9 +28,12 @@ public class UsersDao implements Dao<User> {
         return users.stream().filter(user -> user.getId() == id).findAny();
     }
 
+    public Optional<User> findByEmail(String email) {
+        return users.stream().filter(user -> user.getEmail().equals(email)).findAny();
+    }
+
     public Set<User> findAll() {
         return users;
-
     }
 
     @Override
@@ -42,16 +43,14 @@ public class UsersDao implements Dao<User> {
             user.setEmail(item.getEmail());
             user.setSurname(item.getSurname());
             user.setName(item.getName());
+            user.setUserTasks(item.getUserTasks());
+            user.setSubscription(item.getSubscription());
         }).findAny();
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public void deleteById(int id) {
         Optional<User> userOnDelete = users.stream().filter(user -> user.getId() == id).findAny();
-        if (userOnDelete.isPresent()) {
-            return users.remove(userOnDelete);
-        } else {
-            return false;
-        }
+        users.remove(userOnDelete.orElseThrow(NoSuchUserException::new));
     }
 }

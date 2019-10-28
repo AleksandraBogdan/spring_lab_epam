@@ -1,7 +1,11 @@
 package com.epam.service;
 
 import com.epam.dao.TasksDao;
+import com.epam.dao.UsersDao;
 import com.epam.model.Task;
+import com.epam.model.TaskPriority;
+import com.epam.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,19 +14,18 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
     private TasksDao tasksDao = new TasksDao();
 
-    @Override
-    public void createTask(Task task) {
+    private UsersDao usersDao = new UsersDao();
+
+    public void createTask(User user, Task task) {
+        task.setUserId(user.getId());
         tasksDao.save(task);
+        user.getUserTasks().add(task);
+        usersDao.update(user.getId(), user);
     }
 
     @Override
     public void deleteTask(Task task) {
-        boolean done = tasksDao.deleteById(task.getId());
-        if (done) {
-            System.out.println("Successful deleting");
-        } else {
-            System.out.println("Can't delete task");
-        }
+        tasksDao.deleteById(task.getId());
     }
 
     @Override
@@ -33,11 +36,14 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void setDone(Task task) {
         tasksDao.setDoneTask(task.getId());
-
     }
 
     @Override
     public void setUndone(Task task) {
         tasksDao.setUndoneTask(task.getId());
+    }
+
+    public void setPriority(Task task, TaskPriority taskPriority) {
+        tasksDao.setPriority(task.getId(), taskPriority);
     }
 }

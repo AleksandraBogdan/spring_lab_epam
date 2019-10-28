@@ -9,5 +9,5 @@ public interface Dao<T> {
 
     Optional<T> update(int id, T item);
 
-    boolean deleteById(int id);
+    void deleteById(int id);
 }

@@ -10,4 +10,5 @@ public class Task {
      private String name;
      private boolean isDone;
      private int userId;
+     private TaskPriority taskPriority;
 }
