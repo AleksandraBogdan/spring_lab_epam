@@ -4,10 +4,7 @@ import com.epam.exception.NoSuchUserException;
 import com.epam.model.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class UsersDao implements Dao<User> {
@@ -15,7 +12,7 @@ public class UsersDao implements Dao<User> {
 
     static {
         users.add(User.builder().id(1).name("Alex").surname("Smith").email("alex@mail.com")
-                .password("1234").build());
+                .password("1234").userTasks(new ArrayList<>()).build());
     }
 
     @Override

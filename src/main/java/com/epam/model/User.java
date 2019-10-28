@@ -3,6 +3,7 @@ package com.epam.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,4 +16,8 @@ public class User {
     private String password;
     private String subscription;
     private List<Task> userTasks;
+
+    public List<Task> getUserTasks() {
+        return userTasks;
+    }
 }

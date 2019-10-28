@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Repository
 public class TasksDao implements Dao<Task> {
-    private static List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 
-    static {
+     {
         tasks.add(Task.builder().id(1).name("wake up").isDone(false).userId(1).build());
         tasks.add(Task.builder().id(2).name("breakfast").isDone(false).userId(1).build());
     }

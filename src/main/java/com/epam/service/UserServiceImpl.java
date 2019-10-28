@@ -4,6 +4,7 @@ import com.epam.dao.UsersDao;
 import com.epam.exception.NoSuchUserException;
 import com.epam.exception.UserAlreadyExistsException;
 import com.epam.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     private UsersDao userDao = new UsersDao();
 
     @Override
