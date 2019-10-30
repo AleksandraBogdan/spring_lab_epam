@@ -1,13 +1,13 @@
 package com.epam.dao;
 
-import java.util.Optional;
+import com.epam.model.Task;
 
 public interface Dao<T> {
     boolean save(T item);
 
-    Optional<T> findById(int id);
+    T findById(int id);
 
-    Optional<T> update(int id, T item);
+    void update(int id, T item);
 
     void deleteById(int id);
 }

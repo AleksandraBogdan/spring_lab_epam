@@ -1,5 +1,6 @@
 package com.epam.controller;
 
+
 import com.epam.model.User;
 import com.epam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,7 @@ public class UserController {
     public void subscribe(User user) {
         userService.subscribe(user);
     }
+
+
+
 }

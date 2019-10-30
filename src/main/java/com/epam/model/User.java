@@ -14,5 +14,5 @@ public class User {
     private String email;
     private String password;
     private String subscription;
-    private List<Task> userTasks;
+    private ROLE role;
 }
