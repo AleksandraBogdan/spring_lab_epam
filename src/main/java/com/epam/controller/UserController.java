@@ -6,10 +6,11 @@ import com.epam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserController {
     private UserService userService;
-    public User signInUser;
 
     @Autowired
     public UserController(UserService userService) {
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     public void signIn(User user) {
-        signInUser = userService.signIn(user);
+        userService.signIn(user);
     }
 
     public void subscribe(User user) {
@@ -29,5 +30,7 @@ public class UserController {
     }
 
 
-
+    public List<User> showAll() {
+        return userService.findAll();
+    }
 }

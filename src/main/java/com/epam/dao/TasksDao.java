@@ -29,11 +29,10 @@ public class TasksDao implements Dao<Task> {
     }
 
     @Override
-    public boolean save(Task item) {
+    public void save(Task item) {
         jdbcTemplate.update("insert into tasks values (?, ?, ?, ?, ?)", item.getId(), item.getName(),
                 item.isDone(), item.getUserId(), item.getTaskPriority());
 
-        return findById(item.getId()).equals(item);
     }
 
     @Override

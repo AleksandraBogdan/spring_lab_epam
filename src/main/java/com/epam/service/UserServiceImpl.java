@@ -1,39 +1,35 @@
 package com.epam.service;
 
-import com.epam.RolesService;
+
 import com.epam.dao.UsersDao;
-import com.epam.exception.NoRightsForActionException;
-import com.epam.exception.UserAlreadyExistsException;
+import com.epam.model.Role;
 import com.epam.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     private UsersDao userDao;
-    private RolesService roleService;
-    private User userSignIn;
 
     @Autowired
-    public UserServiceImpl(UsersDao userDao, RolesService roleService) {
+    public UserServiceImpl(UsersDao userDao) {
         this.userDao = userDao;
-        this.roleService = roleService;
     }
 
     @Override
     public void signUp(User user) {
         user.setSubscription("");
-        if(!userDao.save(user)){
-            throw new UserAlreadyExistsException();
-        }
+        user.setRole(Role.USER);
+        userDao.save(user);//бросить exception
     }
 
     @Override
     public User signIn(User user) {
-        return userDao.findById(user.getId());
+        return userDao.findByEmail(user.getEmail());
     }
 
     @Override
@@ -55,13 +51,8 @@ public class UserServiceImpl implements UserService {
         userDao.update(user.getId(), user);
     }
 
-    public void deleteUser(User user){
-        if(roleService.canAccess(userSignIn.getRole().toString())){
-            userDao.deleteById(user.getId());
-        }
-        else{
-            throw new NoRightsForActionException();
-        }
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
     }
-
 }

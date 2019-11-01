@@ -1,7 +1,6 @@
 package com.epam.dao;
 
-import com.epam.model.ROLE;
-import com.epam.model.Task;
+import com.epam.model.Role;
 import com.epam.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -21,7 +20,7 @@ public class UsersDao implements Dao<User> {
         return User.builder().id(resultSet.getInt("id")).name(resultSet.getString("name")).
                 surname(resultSet.getString("surname")).email(resultSet.getString("email")).
                 password(resultSet.getString("password")).subscription(resultSet.getString("subscription")).
-                role(ROLE.valueOf(resultSet.getString("role"))).build();
+                role(Role.valueOf(resultSet.getString("role"))).build();
 
     };
 
@@ -31,11 +30,10 @@ public class UsersDao implements Dao<User> {
     }
 
     @Override
-    public boolean save(User item) {
-        jdbcTemplate.update("insert into users values (?, ?, ?, ?, ?, ?, ?)", item.getId(), item.getName(),
-                item.getSurname(), item.getEmail(), item.getPassword(), item.getSubscription(), item.getRole());
+    public void save(User item) {
+        jdbcTemplate.update("insert into users (name, surname, email, password, subscription, role) values (?, ?, ?, ?, ?, ?)",
+                item.getName(), item.getSurname(), item.getEmail(), item.getPassword(), item.getSubscription(), item.getRole().toString());
 
-        return findById(item.getId()).equals(item);
     }
 
     public User findById(int id) {

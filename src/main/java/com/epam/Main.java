@@ -1,26 +1,33 @@
 package com.epam;
 
 import com.epam.config.ApplicationConfig;
+import com.epam.controller.TaskController;
 import com.epam.controller.UserController;
+import com.epam.model.Role;
+import com.epam.model.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(ApplicationConfig.class);
         ctx.refresh();
+        ClassPathXmlApplicationContext xmlContext = new ClassPathXmlApplicationContext("config.xml");
+        RolesService rolesService = xmlContext.getBean(RolesService.class);
 
         UserController userController = ctx.getBean(UserController.class);
-        //TaskController taskController = ctx.getBean(TaskController.class);
+        TaskController taskController = ctx.getBean(TaskController.class);
 
-//        User testUser = User.builder().id(2).name("Sanya").surname("Smith").email("alex@mail.com")
-//                .password("1234").build();
+        User testUser = User.builder().name("Sanya").surname("Smith").email("sanya@mail.com")
+                .password("1234").build();
 
-
-//        userController.signUp(testUser);
-//        userController.signIn(testUser);
-//        System.out.println(userController.signInUser);
+        //System.out.println(userController.showAll());
+        userController.signUp(testUser);
+        userController.signIn(testUser);
         //userController.signUp(testUser);
+
+        System.out.println(userController.showAll());
 
 
         /*Task testTask = Task.builder().id(3).name("lunch").isDone(false).build();

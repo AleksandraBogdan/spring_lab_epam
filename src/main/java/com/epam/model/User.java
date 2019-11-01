@@ -3,8 +3,6 @@ package com.epam.model;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
 public class User {
@@ -14,5 +12,5 @@ public class User {
     private String email;
     private String password;
     private String subscription;
-    private ROLE role;
+    private Role role;
 }

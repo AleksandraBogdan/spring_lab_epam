@@ -1,6 +1,6 @@
 package com.epam.model;
 
-public enum ROLE {
+public enum Role {
     ADMIN,
-    USER
+    USER;
 }

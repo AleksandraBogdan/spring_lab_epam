@@ -1,9 +1,7 @@
 package com.epam.dao;
 
-import com.epam.model.Task;
-
 public interface Dao<T> {
-    boolean save(T item);
+    void save(T item);
 
     T findById(int id);
 
