@@ -5,11 +5,11 @@ import com.epam.model.TaskPriority;
 import com.epam.model.User;
 import com.epam.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Component
+@RestController
 public class TaskController {
 
     private TaskService taskService;
@@ -20,27 +20,33 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    public void createTask(User user, Task task) {
+    @PostMapping("/createTask")
+    public void createTask(@RequestBody User user, @RequestBody Task task) {
         taskService.createTask(user, task);
     }
 
-    public void deleteTask(Task task) {
+    @DeleteMapping("/deleteTask/{id}")
+    public void deleteTask(@PathVariable Long id, @RequestBody Task task) {
         taskService.deleteTask(task);
     }
 
+    @GetMapping("/getAllTasks")
     public List<Task> getAllTasks() {
         return taskService.getAllTask();
     }
 
-    public void setDone(Task task) {
+    @PutMapping("/setDone/{id}")
+    public void setDone(@PathVariable Long id, @RequestBody Task task) {
         taskService.setDone(task);
     }
 
-    public void setUndone(Task task) {
+    @PutMapping("/setUndone/{id}")
+    public void setUndone(@PathVariable Long id, @RequestBody Task task) {
         taskService.setUndone(task);
     }
 
-    public void setPriority(Task task, TaskPriority taskPriority) {
+    @PutMapping("/setPriority/{taskPriority}")
+    public void setPriority(@PathVariable Task task, TaskPriority taskPriority) {
         taskService.setPriority(task, taskPriority);
     }
 }

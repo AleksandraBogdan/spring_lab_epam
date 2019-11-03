@@ -5,10 +5,11 @@ import com.epam.model.User;
 import com.epam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Component
+@RestController
 public class UserController {
     private UserService userService;
 
@@ -17,19 +18,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    public void signUp(User user) {
+    @PostMapping("/user")
+    public void signUp(@RequestBody User user) {
         userService.signUp(user);
     }
 
-    public void signIn(User user) {
+    @GetMapping("/user/{id}")
+    public void signIn(@PathVariable Long id, @RequestBody User user) {
         userService.signIn(user);
     }
 
-    public void subscribe(User user) {
+    @PutMapping("/subscribe/{id}")
+    public void subscribe(@PathVariable Long id, @RequestBody User user) {
         userService.subscribe(user);
     }
 
-
+    @GetMapping("/showAllUsers")
     public List<User> showAll() {
         return userService.findAll();
     }
