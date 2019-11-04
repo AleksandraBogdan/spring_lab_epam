@@ -19,17 +19,17 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public void signUp(@RequestBody User user) {
+    public void signUp(User user) {
         userService.signUp(user);
     }
 
     @GetMapping("/user/{id}")
-    public void signIn(@PathVariable Long id, @RequestBody User user) {
+    public void signIn(@PathVariable Long id, User user) {
         userService.signIn(user);
     }
 
     @PutMapping("/subscribe/{id}")
-    public void subscribe(@PathVariable Long id, @RequestBody User user) {
+    public void subscribe(@PathVariable Long id, User user) {
         userService.subscribe(user);
     }
 

@@ -7,6 +7,7 @@ import com.epam.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -21,12 +22,12 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public void createTask(@RequestBody User user, @RequestBody Task task) {
+    public void createTask(@RequestBody User user, Task task) {
         taskService.createTask(user, task);
     }
 
-    @DeleteMapping("/deleteTask/{id}")
-    public void deleteTask(@PathVariable Long id, @RequestBody Task task) {
+    @DeleteMapping("/{taskId}/deleteTask")
+    public void deleteTask(@PathVariable Long taskId, Task task) {
         taskService.deleteTask(task);
     }
 
@@ -35,13 +36,13 @@ public class TaskController {
         return taskService.getAllTask();
     }
 
-    @PutMapping("/setDone/{id}")
-    public void setDone(@PathVariable Long id, @RequestBody Task task) {
+    @PutMapping("/{taskId}/setDone")
+    public void setDone(@PathVariable Long taskId, Task task) {
         taskService.setDone(task);
     }
 
-    @PutMapping("/setUndone/{id}")
-    public void setUndone(@PathVariable Long id, @RequestBody Task task) {
+    @PutMapping("/{taskId}/setUndone")
+    public void setUndone(@PathVariable Long taskId, Task task) {
         taskService.setUndone(task);
     }
 
@@ -49,4 +50,10 @@ public class TaskController {
     public void setPriority(@PathVariable Task task, TaskPriority taskPriority) {
         taskService.setPriority(task, taskPriority);
     }
+
+    @PutMapping("/attachFile/{taskId}")
+    public void attachFile(User user, @PathVariable Task task, File file) {
+        taskService.attachFile(user, task, file);
+    }
+
 }

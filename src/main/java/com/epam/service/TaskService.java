@@ -4,6 +4,7 @@ import com.epam.model.Task;
 import com.epam.model.TaskPriority;
 import com.epam.model.User;
 
+import java.io.File;
 import java.util.List;
 
 public interface TaskService {
@@ -18,4 +19,6 @@ public interface TaskService {
     void setUndone(Task task);
 
     void setPriority(Task task, TaskPriority taskPriority);
+
+    void attachFile(User user, Task task, File file);
 }

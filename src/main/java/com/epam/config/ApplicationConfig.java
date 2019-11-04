@@ -9,14 +9,17 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages = {"com.epam"})
 @EnableAspectJAutoProxy
-public class ApplicationConfig {
+@EnableWebMvc
+public class ApplicationConfig extends WebMvcConfigurationSupport {
 
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");

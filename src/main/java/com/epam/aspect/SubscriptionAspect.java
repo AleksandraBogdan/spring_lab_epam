@@ -34,7 +34,7 @@ public class SubscriptionAspect {
         }
     }
 
-    private String getSecretWord() {
+    public static String getSecretWord() {
         String secretWord = "secret";
         MessageDigest md = null;
         try {

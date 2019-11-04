@@ -1,12 +1,15 @@
 package com.epam.service;
 
+import com.epam.aspect.SubscriptionAspect;
 import com.epam.dao.TasksDao;
+import com.epam.exception.SubscriptionException;
 import com.epam.model.Task;
 import com.epam.model.TaskPriority;
 import com.epam.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -45,5 +48,12 @@ public class TaskServiceImpl implements TaskService {
 
     public void setPriority(Task task, TaskPriority taskPriority) {
         tasksDao.setPriority(task.getId(), taskPriority);
+    }
+
+    public void attachFile(User user, Task task, File file) {
+        if (!user.getSubscription().equals(SubscriptionAspect.getSecretWord())) {
+            throw new SubscriptionException();
+        }
+        tasksDao.attachFile(task.getId(), file);
     }
 }

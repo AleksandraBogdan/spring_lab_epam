@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.util.List;
 
@@ -74,4 +75,9 @@ public class TasksDao implements Dao<Task> {
     public void setPriority(int id, TaskPriority taskPriority) {
         jdbcTemplate.update("update tasks set priority = ?2 where id = ?1", id, taskPriority.toString());
     }
+
+    public void attachFile(int id, File file) {
+        jdbcTemplate.update("update tasks set file = ?2 where id = ?1", id, file);
+    }
+
 }

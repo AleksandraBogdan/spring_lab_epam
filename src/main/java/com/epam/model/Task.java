@@ -3,6 +3,8 @@ package com.epam.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.File;
+
 @Builder
 @Data
 public class Task {
@@ -11,4 +13,5 @@ public class Task {
      private boolean isDone;
      private int userId;
      private TaskPriority taskPriority;
+     private File file;
 }
