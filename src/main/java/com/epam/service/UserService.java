@@ -2,6 +2,8 @@ package com.epam.service;
 
 import com.epam.model.User;
 
+import java.util.List;
+
 public interface UserService {
     void signUp(User user);
 
@@ -9,4 +11,5 @@ public interface UserService {
 
     void subscribe(User user);
 
+    List<User> findAll();
 }

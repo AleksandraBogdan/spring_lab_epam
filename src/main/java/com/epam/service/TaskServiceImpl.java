@@ -12,7 +12,12 @@ import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-    private TasksDao tasksDao = new TasksDao();
+    private TasksDao tasksDao;
+
+    @Autowired
+    TaskServiceImpl(TasksDao tasksDao){
+        this.tasksDao = tasksDao;
+    }
 
     private UsersDao usersDao = new UsersDao();
 
