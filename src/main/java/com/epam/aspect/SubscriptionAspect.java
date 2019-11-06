@@ -27,8 +27,8 @@ public class SubscriptionAspect {
         this.taskController = taskController;
     }
 
-    @Before("execution(public * com.epam.controller.TaskController.createTask()) && args(user,task)")
-    public void checkSubscriptionAdvice(JoinPoint joinPoint, User user, Task task) {
+    @Before("execution(public * com.epam.controller.TaskController.createTask()) && args(user, task)")
+    public void checkSubscriptionAdvice(User user, Task task) {
         System.out.println("Aspect");
         if (taskController.getAllTasks().size() == 10 && !user.getSubscription().equals(getSecretWord())) {
             throw new SubscriptionException();
