@@ -17,7 +17,7 @@ public class UsersDao implements Dao<User> {
     private JdbcTemplate jdbcTemplate;
 
     private RowMapper<User> ROW_MAPPER = (ResultSet resultSet, int rowNum) -> {
-        return User.builder().id(resultSet.getInt("id")).name(resultSet.getString("name")).
+        return User.builder().id(resultSet.getLong("id")).name(resultSet.getString("name")).
                 surname(resultSet.getString("surname")).email(resultSet.getString("email")).
                 password(resultSet.getString("password")).subscription(resultSet.getString("subscription")).
                 role(Role.valueOf(resultSet.getString("role"))).build();
@@ -36,7 +36,7 @@ public class UsersDao implements Dao<User> {
 
     }
 
-    public User findById(int id) {
+    public User findById(long id) {
         User user = null;
         try {
             user = jdbcTemplate.queryForObject("select * from users where id = ?", new Object[]{id}, ROW_MAPPER);
@@ -61,14 +61,14 @@ public class UsersDao implements Dao<User> {
     }
 
     @Override
-    public void update(int id, User item) {
+    public void update(long id, User item) {
         jdbcTemplate.update("update users set name = ?2, surname = ?3, email = ?4, password = ?5, subscription = ?6, " +
                         "role = ?7 where id = ?1", item.getId(), item.getName(),
                 item.getSurname(), item.getEmail(), item.getPassword(), item.getSubscription(), item.getRole());
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         jdbcTemplate.update("delete from users where id = ?", id);
 
     }

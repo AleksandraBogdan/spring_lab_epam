@@ -6,6 +6,7 @@ import com.epam.model.User;
 import com.epam.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
@@ -22,13 +23,13 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public void createTask(@RequestBody User user, Task task) {
+    public void createTask(@RequestBody User user, @RequestParam Task task) {
         taskService.createTask(user, task);
     }
 
     @DeleteMapping("/{taskId}/deleteTask")
-    public void deleteTask(@PathVariable Long taskId, Task task) {
-        taskService.deleteTask(task);
+    public void deleteTask(@PathVariable Long taskId) {
+        taskService.deleteTask(taskId);
     }
 
     @GetMapping("/getAllTasks")
@@ -37,23 +38,23 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}/setDone")
-    public void setDone(@PathVariable Long taskId, Task task) {
-        taskService.setDone(task);
+    public void setDone(@PathVariable Long taskId) {
+        taskService.setDone(taskId);
     }
 
     @PutMapping("/{taskId}/setUndone")
-    public void setUndone(@PathVariable Long taskId, Task task) {
-        taskService.setUndone(task);
+    public void setUndone(@PathVariable Long taskId) {
+        taskService.setUndone(taskId);
     }
 
     @PutMapping("/setPriority/{taskPriority}")
-    public void setPriority(@PathVariable Task task, TaskPriority taskPriority) {
-        taskService.setPriority(task, taskPriority);
+    public void setPriority(@PathVariable Long taskId, TaskPriority taskPriority) {
+        taskService.setPriority(taskId, taskPriority);
     }
 
     @PutMapping("/attachFile/{taskId}")
-    public void attachFile(User user, @PathVariable Task task, File file) {
-        taskService.attachFile(user, task, file);
+    public void attachFile(User user, @PathVariable Long taskId,@RequestParam MultipartFile file) {
+        taskService.attachFile(user, taskId, file);
     }
 
 }

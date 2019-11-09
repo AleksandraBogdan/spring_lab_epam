@@ -18,7 +18,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public void signUp(User user) {
+    public void signUp(@RequestParam User user) {
         userService.signUp(user);
     }
 

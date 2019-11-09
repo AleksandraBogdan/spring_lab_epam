@@ -32,8 +32,8 @@ public class ApplicationConfig extends WebMvcConfigurationSupport {
     DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:creation_script.sql")
-                .addScript("classpath:population_script.sql")
+                .addScript("file:src/main/resources/creation_script.sql")
+                .addScript("file:src/main/resources/population_script.sql")
                 .build();
     }
 
