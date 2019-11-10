@@ -22,10 +22,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signUp(User user) {
+    public User signUp(User user) {
         user.setSubscription("");
         user.setRole(Role.USER);
         userDao.save(user);//бросить exception
+        return user;
     }
 
     @Override

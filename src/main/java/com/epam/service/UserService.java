@@ -5,7 +5,7 @@ import com.epam.model.User;
 import java.util.List;
 
 public interface UserService {
-    void signUp(User user);
+    User signUp(User user);
 
     User signIn(User user);
 

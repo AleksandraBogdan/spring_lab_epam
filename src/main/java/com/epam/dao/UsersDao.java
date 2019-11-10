@@ -33,7 +33,6 @@ public class UsersDao implements Dao<User> {
     public void save(User item) {
         jdbcTemplate.update("insert into users (name, surname, email, password, subscription, role) values (?, ?, ?, ?, ?, ?)",
                 item.getName(), item.getSurname(), item.getEmail(), item.getPassword(), item.getSubscription(), item.getRole().toString());
-
     }
 
     public User findById(long id) {
