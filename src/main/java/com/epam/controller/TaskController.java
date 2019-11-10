@@ -1,5 +1,7 @@
 package com.epam.controller;
 
+import com.epam.dto.TaskDto;
+import com.epam.dto.UserDto;
 import com.epam.model.Task;
 import com.epam.model.TaskPriority;
 import com.epam.model.User;
@@ -22,32 +24,32 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public void createTask(@RequestBody User user, Task task) {
+    public void createTask(@RequestBody UserDto user, TaskDto task) {
         taskService.createTask(user, task);
     }
 
     @DeleteMapping("/{taskId}/deleteTask")
-    public void deleteTask(@PathVariable Long taskId, Task task) {
+    public void deleteTask(@PathVariable Long taskId, TaskDto task) {
         taskService.deleteTask(task);
     }
 
     @GetMapping("/getAllTasks")
-    public List<Task> getAllTasks() {
+    public List<TaskDto> getAllTasks() {
         return taskService.getAllTask();
     }
 
     @PutMapping("/{taskId}/setDone")
-    public void setDone(@PathVariable Long taskId, Task task) {
+    public void setDone(@PathVariable Long taskId, TaskDto task) {
         taskService.setDone(task);
     }
 
     @PutMapping("/{taskId}/setUndone")
-    public void setUndone(@PathVariable Long taskId, Task task) {
+    public void setUndone(@PathVariable Long taskId, TaskDto task) {
         taskService.setUndone(task);
     }
 
     @PutMapping("/setPriority/{taskPriority}")
-    public void setPriority(@PathVariable Task task, TaskPriority taskPriority) {
+    public void setPriority(@PathVariable TaskDto task, TaskPriority taskPriority) {
         taskService.setPriority(task, taskPriority);
     }
 

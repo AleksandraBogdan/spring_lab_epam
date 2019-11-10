@@ -1,15 +1,16 @@
 package com.epam.service;
 
+import com.epam.dto.UserDto;
 import com.epam.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    void signUp(User user);
+    void signUp(UserDto user);
 
-    User signIn(User user);
+    UserDto signIn(UserDto user);
 
-    void subscribe(User user);
+    void subscribe(UserDto user);
 
-    List<User> findAll();
+    List<UserDto> findAll();
 }

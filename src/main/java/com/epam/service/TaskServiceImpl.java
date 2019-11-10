@@ -1,59 +1,81 @@
 package com.epam.service;
 
-import com.epam.aspect.SubscriptionAspect;
 import com.epam.dao.TasksDao;
-import com.epam.exception.SubscriptionException;
+import com.epam.dto.TaskDto;
+import com.epam.dto.UserDto;
 import com.epam.model.Task;
 import com.epam.model.TaskPriority;
-import com.epam.model.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TaskService {
     private TasksDao tasksDao;
+    private ModelMapper modelMapper;
 
     @Autowired
-    TaskServiceImpl(TasksDao tasksDao){
+    TaskServiceImpl(TasksDao tasksDao, ModelMapper modelMapper){
         this.tasksDao = tasksDao;
+        this.modelMapper = modelMapper;
     }
 
-    public void createTask(User user, Task task) {
+    public void createTask(UserDto user, TaskDto task) {
         task.setUserId(user.getId());
-        tasksDao.save(task);
+        Task task1 = Task.builder().build();
+        modelMapper.map(task, task1);
+        tasksDao.save(task1);
     }
 
     @Override
-    public void deleteTask(Task task) {
+    public void deleteTask(TaskDto task) {
         tasksDao.deleteById(task.getId());
     }
 
     @Override
-    public List<Task> getAllTask() {
-        return tasksDao.findAll();
-    }
-
-    @Override
-    public void setDone(Task task) {
-        tasksDao.setDoneTask(task.getId());
-    }
-
-    @Override
-    public void setUndone(Task task) {
-        tasksDao.setUndoneTask(task.getId());
-    }
-
-    public void setPriority(Task task, TaskPriority taskPriority) {
-        tasksDao.setPriority(task.getId(), taskPriority);
-    }
-
-    public void attachFile(User user, Task task, File file) {
-        if (!user.getSubscription().equals(SubscriptionAspect.getSecretWord())) {
-            throw new SubscriptionException();
+    public List<TaskDto> getAllTask() {
+        List<Task> taskList = tasksDao.findAll(Sort.by(Sort.Order.asc("taskPriority")));
+        List<TaskDto> taskDtoList = new ArrayList<>();
+        for (Task task: taskList) {
+            TaskDto taskDto = TaskDto.builder().build();
+            modelMapper.map(task, taskDto);
+            taskDtoList.add(taskDto);
         }
-        tasksDao.attachFile(task.getId(), file);
+        return taskDtoList;
+    }
+
+    @Override
+    public void setDone(TaskDto task) {
+        task.setDone(true);
+        Task task1 = Task.builder().build();
+        modelMapper.map(task, task1);
+        tasksDao.save(task1);
+    }
+
+    @Override
+    public void setUndone(TaskDto task) {
+        task.setDone(false);
+        Task task1 = Task.builder().build();
+        modelMapper.map(task, task1);
+        tasksDao.save(task1);
+    }
+
+    public void setPriority(TaskDto task, TaskPriority taskPriority) {
+        task.setTaskPriority(taskPriority);
+        Task task1 = Task.builder().build();
+        modelMapper.map(task, task1);
+        tasksDao.save(task1);
+    }
+
+    public void attachFile(UserDto user, TaskDto task, File file) {
+        task.setFile(file);
+        Task task1 = Task.builder().build();
+        modelMapper.map(task, task1);
+        tasksDao.save(task1);
     }
 }

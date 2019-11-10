@@ -1,6 +1,7 @@
 package com.epam.controller;
 
 
+import com.epam.dto.UserDto;
 import com.epam.model.User;
 import com.epam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +19,22 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public void signUp(User user) {
+    public void signUp(UserDto user) {
         userService.signUp(user);
     }
 
     @GetMapping("/user/{id}")
-    public void signIn(@PathVariable Long id, User user) {
+    public void signIn(@PathVariable Long id, UserDto user) {
         userService.signIn(user);
     }
 
     @PutMapping("/subscribe/{id}")
-    public void subscribe(@PathVariable Long id, User user) {
+    public void subscribe(@PathVariable Long id, UserDto user) {
         userService.subscribe(user);
     }
 
     @GetMapping("/showAllUsers")
-    public List<User> showAll() {
+    public List<UserDto> showAll() {
         return userService.findAll();
     }
 }
