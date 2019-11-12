@@ -1,3 +1,4 @@
+
 package com.epam.aspect;
 
 
@@ -8,7 +9,6 @@ import com.epam.model.User;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,15 +27,15 @@ public class SubscriptionAspect {
         this.taskController = taskController;
     }
 
-    @Before("execution(public * com.epam.controller.TaskController.createTask()) && args(user, task)")
-    public void checkSubscriptionAdvice(User user, Task task) {
+    @Before("execution(public * com.epam.controller.TaskController.createTask()) && args(user,task)")
+    public void checkSubscriptionAdvice(JoinPoint joinPoint, User user, Task task) {
         System.out.println("Aspect");
         if (taskController.getAllTasks().size() == 10 && !user.getSubscription().equals(getSecretWord())) {
             throw new SubscriptionException();
         }
     }
 
-    private String getSecretWord() {
+    public static String getSecretWord() {
         String secretWord = "secret";
         MessageDigest md = null;
         try {

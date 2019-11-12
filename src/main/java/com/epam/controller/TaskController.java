@@ -5,11 +5,13 @@ import com.epam.model.TaskPriority;
 import com.epam.model.User;
 import com.epam.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
-@Component
+@RestController
 public class TaskController {
 
     private TaskService taskService;
@@ -20,27 +22,39 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    public void createTask(User user, Task task) {
+    @PostMapping("/createTask")
+    public void createTask(@RequestBody User user, @RequestParam Task task) {
         taskService.createTask(user, task);
     }
 
-    public void deleteTask(Task task) {
-        taskService.deleteTask(task);
+    @DeleteMapping("/{taskId}/deleteTask")
+    public void deleteTask(@PathVariable Long taskId) {
+        taskService.deleteTask(taskId);
     }
 
+    @GetMapping("/getAllTasks")
     public List<Task> getAllTasks() {
         return taskService.getAllTask();
     }
 
-    public void setDone(Task task) {
-        taskService.setDone(task);
+    @PutMapping("/{taskId}/setDone")
+    public void setDone(@PathVariable Long taskId) {
+        taskService.setDone(taskId);
     }
 
-    public void setUndone(Task task) {
-        taskService.setUndone(task);
+    @PutMapping("/{taskId}/setUndone")
+    public void setUndone(@PathVariable Long taskId) {
+        taskService.setUndone(taskId);
     }
 
-    public void setPriority(Task task, TaskPriority taskPriority) {
-        taskService.setPriority(task, taskPriority);
+    @PutMapping("/setPriority/{taskPriority}")
+    public void setPriority(@PathVariable Long taskId, TaskPriority taskPriority) {
+        taskService.setPriority(taskId, taskPriority);
     }
+
+    @PutMapping("/attachFile/{taskId}")
+    public void attachFile(User user, @PathVariable Long taskId,@RequestParam MultipartFile file) {
+        taskService.attachFile(user, taskId, file);
+    }
+
 }

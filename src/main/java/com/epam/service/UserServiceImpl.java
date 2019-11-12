@@ -6,6 +6,7 @@ import com.epam.model.Role;
 import com.epam.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -23,10 +24,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void signUp(User user) {
+    public User signUp(User user) {
         user.setSubscription("");
         user.setRole(Role.USER);
         userDao.save(user);//бросить exception
+        return user;
     }
 
     @Override

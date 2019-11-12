@@ -4,11 +4,12 @@ package com.epam.controller;
 import com.epam.model.User;
 import com.epam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Component
+@RestController
 public class UserController {
     private UserService userService;
 
@@ -17,19 +18,26 @@ public class UserController {
         this.userService = userService;
     }
 
-    public void signUp(User user) {
-        userService.signUp(user);
+    @PostMapping("/signUp")
+    @ResponseStatus(HttpStatus.CREATED)
+    public User signUp(@RequestBody User user) {
+        return userService.signUp(user);
     }
 
-    public void signIn(User user) {
-        userService.signIn(user);
+    @GetMapping("/signIn")
+    @ResponseStatus(HttpStatus.OK)
+    public User signIn(@PathVariable Long id, User user) {
+        return userService.signIn(user);
     }
 
-    public void subscribe(User user) {
+    @PutMapping("/subscribe/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void subscribe(@PathVariable Long id, User user) {
         userService.subscribe(user);
     }
 
-
+    @GetMapping("/showAllUsers")
+    @ResponseStatus(HttpStatus.OK)
     public List<User> showAll() {
         return userService.findAll();
     }

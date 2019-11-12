@@ -3,9 +3,9 @@ package com.epam.dao;
 public interface Dao<T> {
     void save(T item);
 
-    T findById(int id);
+    T findById(long id);
 
-    void update(int id, T item);
+    void update(long id, T item);
 
-    void deleteById(int id);
+    void deleteById(long id);
 }

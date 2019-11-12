@@ -13,9 +13,9 @@ CREATE TABLE `tasks` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` varchar(255) NOT NULL,
 	`isDone` varchar(8) NOT NULL,
-	`user_id` INT NOT NULL,
-	`priority` varchar(255),
+	`userId` INT NOT NULL,
+	`taskPriority` varchar(255) NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+	FOREIGN KEY (`userId`) REFERENCES `users`(`id`)
 );
 

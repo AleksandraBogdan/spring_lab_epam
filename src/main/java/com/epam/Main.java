@@ -4,7 +4,6 @@ import com.epam.aspect.SubscriptionAspect;
 import com.epam.config.ApplicationConfig;
 import com.epam.controller.TaskController;
 import com.epam.controller.UserController;
-import com.epam.model.Role;
 import com.epam.model.User;
 import javafx.application.Application;
 import org.springframework.aop.config.AspectComponentDefinition;
@@ -33,7 +32,8 @@ public class Main {
 
         //System.out.println(userController.showAll());
         userController.signUp(testUser);
-        userController.signIn(testUser);
+        userController.signIn((long)testUser.getId(), testUser);
+        //userController.signUp(testUser);
 
 
         System.out.println(userController.showAll());

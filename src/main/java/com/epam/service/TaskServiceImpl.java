@@ -1,13 +1,18 @@
 package com.epam.service;
 
+import com.epam.aspect.SubscriptionAspect;
 import com.epam.dao.TasksDao;
-import com.epam.dao.UsersDao;
+
+import com.epam.exception.SubscriptionException;
+
 import com.epam.model.Task;
 import com.epam.model.TaskPriority;
 import com.epam.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -29,8 +34,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(Task task) {
-        tasksDao.deleteById(task.getId());
+    public void deleteTask(Long taskId) {
+        tasksDao.deleteById(taskId);
     }
 
     @Override
@@ -39,16 +44,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void setDone(Task task) {
-        tasksDao.setDoneTask(task.getId());
+    public void setDone(Long taskId) {
+        tasksDao.setDoneTask(taskId);
     }
 
     @Override
-    public void setUndone(Task task) {
-        tasksDao.setUndoneTask(task.getId());
+    public void setUndone(Long taskId) {
+        tasksDao.setUndoneTask(taskId);
     }
 
-    public void setPriority(Task task, TaskPriority taskPriority) {
-        tasksDao.setPriority(task.getId(), taskPriority);
+    public void setPriority(Long taskId, TaskPriority taskPriority) {
+        tasksDao.setPriority(taskId, taskPriority);
+    }
+
+    public void attachFile(User user, Long taskId, MultipartFile file) {
+        if (!user.getSubscription().equals(SubscriptionAspect.getSecretWord())) {
+            throw new SubscriptionException();
+        }
+        tasksDao.attachFile(taskId, file);
     }
 }
