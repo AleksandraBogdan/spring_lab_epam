@@ -27,7 +27,7 @@ public class TasksDao implements Dao<Task> {
     @Autowired
     public TasksDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
+
 
     @Override
     public void save(Task item) {

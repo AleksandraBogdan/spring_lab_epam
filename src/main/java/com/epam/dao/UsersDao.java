@@ -8,11 +8,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+
 import java.sql.ResultSet;
 import java.util.List;
 
+
 @Repository
 public class UsersDao implements Dao<User> {
+
 
     private JdbcTemplate jdbcTemplate;
 
@@ -27,7 +30,7 @@ public class UsersDao implements Dao<User> {
     @Autowired
     public UsersDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
+
 
     @Override
     public void save(User item) {
