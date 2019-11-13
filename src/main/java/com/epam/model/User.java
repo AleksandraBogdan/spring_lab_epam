@@ -1,21 +1,26 @@
 package com.epam.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
+@JsonDeserialize(builder = User.UserBuilder.class)
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "USER")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotEmpty
-    private int id;
+    private long id;
 
     @Column
     @NotEmpty
@@ -38,8 +43,4 @@ public class User {
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
-            cascade = {CascadeType.ALL})
-    private List<Task> taskList;
 }

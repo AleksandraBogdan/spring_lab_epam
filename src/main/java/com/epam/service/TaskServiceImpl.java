@@ -1,6 +1,10 @@
 package com.epam.service;
 
+import com.epam.aspect.SubscriptionAspect;
 import com.epam.dao.TasksDao;
+
+import com.epam.exception.SubscriptionException;
+
 import com.epam.dto.TaskDto;
 import com.epam.dto.UserDto;
 import com.epam.model.Task;
@@ -9,10 +13,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -25,6 +30,7 @@ public class TaskServiceImpl implements TaskService {
         this.modelMapper = modelMapper;
     }
 
+    @Override
     public void createTask(UserDto user, TaskDto task) {
         task.setUserId(user.getId());
         Task task1 = Task.builder().build();
@@ -33,8 +39,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(TaskDto task) {
-        tasksDao.deleteById(task.getId());
+    public void deleteTask(Long taskId) {
+        tasksDao.deleteById(taskId);
     }
 
     @Override
@@ -50,32 +56,32 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void setDone(TaskDto task) {
-        task.setDone(true);
-        Task task1 = Task.builder().build();
-        modelMapper.map(task, task1);
-        tasksDao.save(task1);
+    public void setDone(Long taskId) {
+        Optional<Task> task = tasksDao.findById(taskId);
+        task.get().setDone(true);
+        tasksDao.updateDone(taskId, task.get().isDone());
     }
 
-    @Override
-    public void setUndone(TaskDto task) {
-        task.setDone(false);
-        Task task1 = Task.builder().build();
-        modelMapper.map(task, task1);
-        tasksDao.save(task1);
+    public void setUndone(Long taskId) {
+        Optional<Task> task = tasksDao.findById(taskId);
+        task.get().setDone(false);
+        tasksDao.updateDone(taskId, task.get().isDone());
     }
 
-    public void setPriority(TaskDto task, TaskPriority taskPriority) {
-        task.setTaskPriority(taskPriority);
-        Task task1 = Task.builder().build();
-        modelMapper.map(task, task1);
-        tasksDao.save(task1);
+    public void setPriority(Long taskId, TaskPriority taskPriority) {
+        Optional<Task> task = tasksDao.findById(taskId);
+        task.get().setTaskPriority(taskPriority);
+        tasksDao.updatePriority(taskId, task.get().getTaskPriority().toString());
     }
 
-    public void attachFile(UserDto user, TaskDto task, File file) {
-        task.setFile(file);
-        Task task1 = Task.builder().build();
-        modelMapper.map(task, task1);
-        tasksDao.save(task1);
+
+    public void attachFile(UserDto user, Long taskId, MultipartFile file) {
+        if (!user.getSubscription().equals(SubscriptionAspect.getSecretWord())) {
+            throw new SubscriptionException();
+        }
+        Optional<Task> task = tasksDao.findById(taskId);
+        task.get().setFile(file);
+        tasksDao.updateFile(taskId, task.get().getFile());
+
     }
 }

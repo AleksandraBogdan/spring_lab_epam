@@ -6,7 +6,7 @@ import com.epam.model.User;
 import java.util.List;
 
 public interface UserService {
-    void signUp(UserDto user);
+    UserDto signUp(UserDto user);
 
     UserDto signIn(UserDto user);
 

@@ -2,6 +2,7 @@ package com.epam.model;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -15,7 +16,7 @@ public class Task {
      @Id
      @GeneratedValue(strategy = GenerationType.AUTO)
      @NotEmpty
-     private int id;
+     private long id;
 
      @Column
      private String name;
@@ -33,5 +34,5 @@ public class Task {
      private TaskPriority taskPriority;
 
      @Column
-     private File file;
+     private MultipartFile file;
 }

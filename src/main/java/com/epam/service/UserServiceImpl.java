@@ -27,12 +27,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signUp(UserDto user) {
+    public UserDto signUp(UserDto user) {
         user.setSubscription("");
         user.setRole(Role.USER);
         User user1 = User.builder().build();
         modelMapper.map(user , user1);
-        userDao.save(user1);
+        user1 = userDao.save(user1);
+        modelMapper.map(user1 , user);
+        return user;
     }
 
     @Override
